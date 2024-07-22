@@ -1,0 +1,71 @@
+   1              	# 1 "../pract2a.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    pract2a.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**  Propósito:
+  11              	**    Busca el valor máximo de un vector de enteros positivos
+  12              	**
+  13              	**  Notas de diseño:
+  14              	**  MIGUEL MATEOS MATIAS GRUPO B
+  15              	**
+  16              	**---------------------------------------------------------------*/
+  17              	
+  18              	.global start
+  19              	
+  20              	.EQU 	N, 8
+  21              	
+  22              	.data
+  23 0000 07000000 	A: 		.word 7,3,25,4,75,2,1,1
+  23      03000000 
+  23      19000000 
+  23      04000000 
+  23      4B000000 
+  24              	
+  25              	.bss
+  26 0000 00000000 	max: 	.space 4
+  27              	
+  28              	.text
+  29              	start:
+  30 0000 0000A0E3 			mov r0, #0  //Inicializamos max en 0 (max=0)
+  31 0004 30109FE5 			ldr r1,=max //Introduzco la dirección de max en R1
+  32 0008 30209FE5 			ldr R2,=A   //Introduzco la dirección de A en R2
+  33 000c 0840A0E3 			ldr R4,=N   //Introduzco la dirección de N en R4
+  34 0010 0030A0E3 			mov R3,#0   //Inicializamos i
+  35              	
+  36 0014 040053E1 	for:	cmp R3,R4  //Comparamos N e i,para iniciar un bucle for
+  37 0018 060000AA 			bge fin    //Si i es mayor que N , salimos del bucle for y nos dirigimos a fin
+  38 001c 035192E7 			ldr R5,[R2,R3,lsl#2] //Creamos el array A[i]
+  39 0020 050050E1 			cmp R0,R5 //Comparamos el array mencionado anteriormente y max (en un bucle if)
+  40 0024 010000AA 			bge else  //Si el array es mayor que max,nos dirigimos a else
+  41 0028 0500A0E1 			mov R0,R5 // Igualamos max al array (max=A[i])
+  42 002c 000081E5 			str r0,[r1] //Guardas el valor que hay en R0 en la direccion de memoria de R1
+  43              	
+  44 0030 013083E2 	else:	add R3,R3,#1 //Hacemos que aumente el contador i
+  45 0034 F6FFFFEA 			b for  //Vuelves al origen del bucle for
+  46              	
+  47 0038 FEFFFFEA 	fin:	b .
+  48 003c 00000000 			.end  //FIN
+  48      00000000 
+DEFINED SYMBOLS
+      ../pract2a.asm:29     .text:00000000 start
+      ../pract2a.asm:20     *ABS*:00000008 N
+      ../pract2a.asm:23     .data:00000000 A
+      ../pract2a.asm:26     .bss:00000000 max
+      ../pract2a.asm:26     .bss:00000000 $d
+      ../pract2a.asm:30     .text:00000000 $a
+      ../pract2a.asm:36     .text:00000014 for
+      ../pract2a.asm:47     .text:00000038 fin
+      ../pract2a.asm:44     .text:00000030 else
+      ../pract2a.asm:48     .text:0000003c $d
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,27 @@
+C:/Practica0/BibliotecaLabFC1.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Practica0/BibliotecaLabFC1.vhd
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Compiling entity inv
+-- Compiling architecture comportamiento of inv
+-- Compiling entity and2
+-- Compiling architecture comportamiento of and2
+-- Compiling entity or2
+-- Compiling architecture comportamiento of or2
+-- Compiling entity and3
+-- Compiling architecture comportamiento of and3
+-- Compiling entity or3
+-- Compiling architecture comportamiento of or3
+-- Compiling entity xor2
+-- Compiling architecture comportamiento of xor2
+-- Compiling entity mux4a1
+-- Compiling architecture comportamiento of mux4a1
+-- Compiling entity ffd
+-- Compiling architecture comportamiento of ffd
+
+} {} {}} C:/Practica0/proyecto0.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Practica0/proyecto0.vhd
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Compiling entity grey
+-- Compiling architecture estructural of grey
+
+} {} {}}

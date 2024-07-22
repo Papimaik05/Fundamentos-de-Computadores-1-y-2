@@ -1,0 +1,124 @@
+   1              	# 1 "../pract3.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    pract3a.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**  Propósito:
+  11              	**    Ordena de mayor a menor un vector de enteros positivos
+  12              	**
+  13              	**  Notas de diseño:
+  14              	**    Utiliza una subrutina que devuelve la posición del valor
+  15              	**    máximo de un vector de enteros positivos
+  16              	**
+  17              	**    Miguel Mateos Matias  Grupo B
+  18              	**
+  19              	**---------------------------------------------------------------*/
+  20              	
+  21              	.global start
+  22              	
+  23              	.EQU 	N, 8
+  24              	
+  25              	.data
+  26 0000 07000000 	A: 		.word 7,3,25,4,75,2,1,1
+  26      03000000 
+  26      19000000 
+  26      04000000 
+  26      4B000000 
+  27              	
+  28              	.bss
+  29 0000 00000000 	B: 		.space N*4
+  29      00000000 
+  29      00000000 
+  29      00000000 
+  29      00000000 
+  30              	
+  31              	.text
+  32              	start:
+  33 0000 B0509FE5 			ldr R5,=A  //Introduzco la dirección de A en R1
+  34 0004 B0609FE5 			ldr R6,=B  //Introduzco la dirección de B en R2
+  35 0008 0070A0E3 			mov R7,#0 //Inicializamos j
+  36              	
+  37              	
+  38 000c 080057E3 	for:	cmp R7,#N //comparamos j con n
+  39 0010 080000AA 	        bge fin  //Si j es mayor que  N ,vamos al final
+  40 0014 0500A0E1 	        mov R0,R5 // Primer parametro en R0(A)
+  41 0018 0810A0E3 	        mov R1,#N //Segundo Parámetro en R1(#N)
+  42 001c 0A0000EB 	        BL max  //Nos dirigimos a nuestra subrutina,guarda en r14(lr) la direccion siguiente de bl
+  43 0020 008195E7 	        ldr R8,[R5,R0,lsl#2] //Creamos el array A[ind]
+  44 0024 078186E7 	        str R8,[R6,R7,lsl#2] //Guardamos el valor que hay en A[ind] en la direccion de memoria de B
+  45 0028 0080A0E3 	        mov R8,#0 //A[ind]=0
+  46 002c 008185E7 	        str R8,[R5,R0,lsl#2] //Guardamos en la posicion de A[ind] un 0
+  47 0030 017087E2 	        add R7,R7,#1 //j++
+  48 0034 F4FFFFEA 	        b for //volvemos a for
+  49              	
+  50              	fin:
+  51 0038 0600A0E1 	        mov R0,R6 // B
+  52 003c 0510A0E1 	        mov R1,R5 //a
+  53 0040 0820A0E3 	        mov R2,#N
+  54 0044 100000EB 	        bl copia
+  55 0048 FEFFFFEA 	        b . //fin
+  56              	
+  57 004c 30002DE9 	max:    push {R4,R5} //Guardas el valor de R4
+  58 0050 0030A0E3 	        mov R3,#0 //inicializamos max
+  59 0054 0050A0E3 	        mov R5,#0 //inicializamos i
+  60 0058 0020A0E3 	        mov R2,#0 //inicializamos ind
+  61              	
+  62 005c 010055E1 	mbuc:   cmp R5,R1 //comparamos i con N
+  63 0060 060000AA 	        bge fdf //Si i es mayor que n,vamos a fdf
+  64 0064 054190E7 	        ldr R4,[R0,R5,lsl#2] //Creamos el array A[i]
+  65 0068 040053E1 	        cmp R3,R4 //comparamos max con el array mencionado anteriormente
+  66 006c 010000AA 	        bge else //Si max es mayor que el array vamos a else
+  67 0070 0430A0E1 	        mov R3,R4 // max=A[i]
+  68 0074 0520A0E1 	        mov R2,R5 // ind=i
+  69              	
+  70 0078 015085E2 	else:   add r5,r5,#1 // i++
+  71 007c F6FFFFEA 	        b mbuc //Volvemos a mbuc
+  72              	
+  73 0080 0200A0E1 	fdf:    mov R0,R2 //Guardamos lo que hemos obtenido en la subrutina en r0
+  74 0084 3000BDE8 	        pop {R4,R5}//Restauras el valor de R4
+  75 0088 0EF0A0E1 	        mov pc,lr //Retorno a la funcion llamante
+  76              	
+  77 008c 04402DE5 	copia:  push {R4}
+  78 0090 0030A0E3 	        mov R3,#0              //iniciliazamos i
+  79              	
+  80 0094 020053E1 	bucsub: cmp R3,R2              //comparamos i con la longitud
+  81 0098 030000AA 	        bge finsub2
+  82 009c 034190E7 			ldr R4,[R0,R3,LSL#2]	//guardamos en R4 B[i]
+  83 00a0 034181E7 			str R4,[R1,R3,LSL#2]	//guardamos en A[i] el registro R4
+  84 00a4 013083E2 			add R3,R3,#1			//aumentamos i --> i++
+  85 00a8 F9FFFFEA 			b bucsub				//vuelve al inicio del bucle de la subrutina
+  86              	finsub2:
+  87 00ac 0100A0E1 			mov R0, R1
+  88 00b0 04409DE4 			pop {R4}				//Recuperamos los posibles valores que hubiese en R4 y R5 que habiamos protegido al p
+  89 00b4 0EF0A0E1 			mov pc, lr				//Vuelta a la funcion llamante (viene a ser un return de c)
+  90              	
+  91 00b8 00000000 			.end
+  91      00000000 
+DEFINED SYMBOLS
+       ../pract3.asm:32     .text:00000000 start
+       ../pract3.asm:23     *ABS*:00000008 N
+       ../pract3.asm:26     .data:00000000 A
+       ../pract3.asm:29     .bss:00000000 B
+       ../pract3.asm:29     .bss:00000000 $d
+       ../pract3.asm:33     .text:00000000 $a
+       ../pract3.asm:38     .text:0000000c for
+       ../pract3.asm:50     .text:00000038 fin
+       ../pract3.asm:57     .text:0000004c max
+       ../pract3.asm:77     .text:0000008c copia
+       ../pract3.asm:62     .text:0000005c mbuc
+       ../pract3.asm:73     .text:00000080 fdf
+       ../pract3.asm:70     .text:00000078 else
+       ../pract3.asm:80     .text:00000094 bucsub
+       ../pract3.asm:86     .text:000000ac finsub2
+       ../pract3.asm:91     .text:000000b8 $d
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

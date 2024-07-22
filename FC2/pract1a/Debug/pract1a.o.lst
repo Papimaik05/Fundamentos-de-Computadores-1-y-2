@@ -1,0 +1,58 @@
+   1              	# 1 "../pract1a.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    pract1a.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**  Propósito:
+  11              	**    Compara 2 números y se queda con el mayor
+  12              	**
+  13              	**  Notas de diseño:
+  14              	**
+  15              	**---------------------------------------------------------------*/
+  16              	
+  17              	.global start
+  18              	.data
+  19 0000 03000000 	X: 		.word 0x03
+  20 0004 0A000000 	Y: 		.word 0x0A
+  21              	
+  22              	.bss
+  23 0000 00000000 	Mayor: 	.space 4
+  24              	
+  25              	.text
+  26              	start:
+  27 0000 24409FE5 			LDR R4, =X
+  28 0004 24309FE5 			LDR R3, =Y
+  29 0008 24509FE5 			LDR R5, =Mayor
+  30 000c 001094E5 			LDR R1, [R4]
+  31 0010 002093E5 			LDR R2, [R3]
+  32 0014 020051E1 			CMP R1, R2
+  33 0018 010000DA 			BLE else
+  34 001c 001085E5 			STR R1, [R5]
+  35 0020 000000EA 			B FIN
+  36 0024 002085E5 	else: 	STR R2, [R5]
+  37 0028 FEFFFFEA 	FIN: 	B .
+  38              	
+  39 002c 00000000 			.end
+  39      04000000 
+  39      00000000 
+DEFINED SYMBOLS
+      ../pract1a.asm:26     .text:00000000 start
+      ../pract1a.asm:19     .data:00000000 X
+      ../pract1a.asm:20     .data:00000004 Y
+      ../pract1a.asm:23     .bss:00000000 Mayor
+      ../pract1a.asm:23     .bss:00000000 $d
+      ../pract1a.asm:27     .text:00000000 $a
+      ../pract1a.asm:36     .text:00000024 else
+      ../pract1a.asm:37     .text:00000028 FIN
+      ../pract1a.asm:39     .text:0000002c $d
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,66 @@
+   1              	# 1 "../rutinas_asm.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    rutinas_asm.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**
+  11              	**
+  12              	**  Notas de diseño:
+  13              	**
+  14              	**---------------------------------------------------------------*/
+  15              	
+  16              	.global contarUnos
+  17              	
+  18              	
+  19              	.text
+  20              	
+  21              	contarUnos:
+  22 0000 F0012DE9 	  		push {r4-r8} // Guardamos el valor de R4 a R8
+  23 0004 0040A0E3 	        mov r4,#0 //Declaramos i (i=0)
+  24              	
+  25 0008 020054E1 	for:    cmp r4,r2 //Comparamos i con el numero de filas
+  26 000c 0F0000AA 	        bge fin //Si i es mayor que el numero de filas,vamos a fin
+  27 0010 0060A0E3 	        mov r6,#0 //Vector[i]=0;
+  28 0014 0050A0E3 	        mov r5,#0 //Declaramos j (j=0)
+  29              	
+  30 0018 030055E1 	for2:   cmp r5,r3 //Comparamos j con el numero de columnas
+  31 001c 080000AA 	        bge fin2 //Si j es mayor que el numero de columnas vamos a fin2
+  32 0020 0070A0E3 	        mov r7,#0
+  33 0024 940307E0 	        mul r7,r4,r3 //R7= (i * numero de columnas )
+  34 0028 057087E0 	        add r7,r7,r5 //R7=(i * numero de columnas ) + j
+  35 002c 078190E7 	        ldr r8,[r0,r7,lsl#2]// Creamos el array necesario
+  36 0030 010058E3 	        cmp r8,#1 //Comparamos el array creado con 1
+  37 0034 0000001A 	        bne else  //Si es distinto vamos a else
+  38 0038 016086E2 	        add r6,r6,#1 // vector[i]++;
+  39              	
+  40 003c 015085E2 	else:  add r5,r5,#1 //j++
+  41 0040 F4FFFFEA 	       b for2 //vuelta al for 2
+  42              	
+  43              	
+  44 0044 046181E7 	fin2:  str r6,[r1,r4,lsl#2] //Guardamos el valor de V(i)
+  45 0048 014084E2 	       add r4,r4,#1 //i++
+  46 004c EDFFFFEA 	       b for
+  47              	
+  48              	fin:
+  49 0050 F001BDE8 	       pop {r4-r8} //Recuperamos los valores de r4-r8
+  50              	       //mov pc,lr
+  51 0054 1EFF2FE1 	       bx lr
+DEFINED SYMBOLS
+  ../rutinas_asm.asm:21     .text:00000000 contarUnos
+  ../rutinas_asm.asm:22     .text:00000000 $a
+  ../rutinas_asm.asm:25     .text:00000008 for
+  ../rutinas_asm.asm:48     .text:00000050 fin
+  ../rutinas_asm.asm:30     .text:00000018 for2
+  ../rutinas_asm.asm:44     .text:00000044 fin2
+  ../rutinas_asm.asm:40     .text:0000003c else
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

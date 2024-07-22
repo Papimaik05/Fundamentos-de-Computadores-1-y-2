@@ -1,0 +1,62 @@
+   1              	# 1 "../pract1b.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    pract1b.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**  Propósito:
+  11              	**    Divide 2 números mediante el algoritmo de restas parciales
+  12              	**
+  13              	**  Notas de diseño:
+  14              	**  NOMBRE:Miguel Mateos Matias
+  15              	    Grupo:B
+  16              	**---------------------------------------------------------------*/
+  17              	
+  18              	.global start
+  19              	
+  20              	.data
+  21 0000 0A000000 	A: .word 0x0A
+  22 0004 02000000 	B: .word 0x02
+  23              	
+  24              	
+  25              	.bss
+  26 0000 00000000 	C: .space 4
+  27              	
+  28              	.text
+  29              	start:
+  30 0000 2C409FE5 			LDR R4, =A   //Introduzco la dirección de A en R4
+  31 0004 2C509FE5 			LDR R5, =B   //Introduzco la dirección de B en R5
+  32 0008 2C609FE5 			LDR R6, =C   //Introduzco la dirección de C en R6
+  33 000c 001094E5 			LDR R1,[R4]  //Introduzco el valor que hay en la direccion de R4 en R1
+  34 0010 002095E5 			LDR R2,[R5]  //Introduzco el valor que hay en la direccion de R5 en R2
+  35 0014 0030A0E3 			MOV R3,#0    //Inicializo C (C=0)
+  36 0018 020051E1 	loop:	CMP R1,R2    //Comparamos R1 y R2(A y B)
+  37 001c 020000BA 			BLT fin      //Si es menor que ,nos dirige a fin
+  38 0020 021041E0 			SUB R1,R1,R2 //A=A-B
+  39 0024 013083E2 			ADD R3,R3,#1 //C=C+1
+  40 0028 FAFFFFEA 			B loop       //Vuelves al origen del bucle
+  41 002c 003086E5 	fin:	STR R3,[R6]  //Guardas el valor que hay en R3 en la direccion de memoria de R6
+  42 0030 FEFFFFEA 			B .
+  43 0034 00000000 			.end         //Fin
+  43      04000000 
+  43      00000000 
+DEFINED SYMBOLS
+      ../pract1b.asm:29     .text:00000000 start
+      ../pract1b.asm:21     .data:00000000 A
+      ../pract1b.asm:22     .data:00000004 B
+      ../pract1b.asm:26     .bss:00000000 C
+      ../pract1b.asm:26     .bss:00000000 $d
+      ../pract1b.asm:30     .text:00000000 $a
+      ../pract1b.asm:36     .text:00000018 loop
+      ../pract1b.asm:41     .text:0000002c fin
+      ../pract1b.asm:43     .text:00000034 $d
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

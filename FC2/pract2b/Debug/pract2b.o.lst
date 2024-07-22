@@ -1,0 +1,100 @@
+   1              	# 1 "../pract2b.asm"
+   1              	/*-----------------------------------------------------------------
+   0              	
+   0              	
+   0              	
+   2              	**
+   3              	**  Fichero:
+   4              	**    pract2b.asm  10/6/2014
+   5              	**
+   6              	**    Fundamentos de Computadores
+   7              	**    Dpto. de Arquitectura de Computadores y Automática
+   8              	**    Facultad de Informática. Universidad Complutense de Madrid
+   9              	**
+  10              	**  Propósito:
+  11              	**    Ordena de mayor a menor un vector de enteros positivos
+  12              	**
+  13              	**  Notas de diseño:
+  14              	** MIGUEL MATEOS MATIAS GRUPO B
+  15              	**---------------------------------------------------------------*/
+  16              	
+  17              	.EQU 	N, 8
+  18              	
+  19              	.global start
+  20              	
+  21              	.data
+  22 0000 07000000 	A: 		.word 7,3,25,4,75,2,1,1
+  22      03000000 
+  22      19000000 
+  22      04000000 
+  22      4B000000 
+  23              	
+  24              	.bss
+  25 0000 00000000 	B: 		.space N*4
+  25      00000000 
+  25      00000000 
+  25      00000000 
+  25      00000000 
+  26 0020 00000000 	max: 	.space 4
+  27 0024 00000000 	ind: 	.space 4
+  28              	
+  29              	.text
+  30              	start:
+  31 0000 64109FE5 			ldr R1,=A  //Introduzco la dirección de A en R1
+  32 0004 64209FE5 			ldr R2,=B  //Introduzco la dirección de B en R2
+  33 0008 64309FE5 			ldr R3,=max //Introduzco la dirección de max en R3
+  34 000c 64409FE5 			ldr R4,=ind //Introduzco la dirección de ind en R4
+  35 0010 0060A0E3 			mov R6,#0 //Inicializamos j
+  36              	
+  37              	
+  38 0014 080056E3 	for:	cmp R6,#N //comparamos j con n
+  39 0018 120000AA 	        bge fin  //Si j es mayor que  N ,vamos al final
+  40 001c 00A0A0E3 	        mov R10,#0 //inicializamos max
+  41 0020 0070A0E3 	        mov R7,#0 //inicializamos i
+  42 0024 0090A0E3 	        mov R9,#0 //inicializamos ind
+  43              	
+  44              	
+  45 0028 080057E3 	for2:   cmp R7,#N //comparamos i con N
+  46 002c 080000AA 	        bge fbucle //Si i es mayor que n,camos a fbucle
+  47 0030 078191E7 	        ldr R8,[R1,R7,lsl#2] //Creamos el array A[i]
+  48 0034 08005AE1 	        cmp R10,R8 //comparamos max con el array mencionado anteriormente
+  49 0038 030000AA 	        bge else //Si max es mayor que el array
+  50 003c 08A0A0E1 	        mov R10,R8 // max=A[i]
+  51 0040 0790A0E1 	        mov R9,R7 // ind=i
+  52 0044 00A083E5 	        str R10,[R3] //Guardas el valor que hay en R10 en la direccion de memoria de R3
+  53 0048 009084E5 	        str R9,[R4]  //Guardas el valor que hay en R9 en la direccion de memoria de R4
+  54              	
+  55              	
+  56 004c 017087E2 	else:   add R7,R7,#1 //aumentamos la i (i++)
+  57 0050 F4FFFFEA 	        b for2 //volvemos al for2
+  58              	
+  59              	fbucle:
+  60 0054 06A182E7 	        str R10,[R2,R6,lsl#2]  //Guardas el valor que hay en R10 en la direccion de memoria de B[j]
+  61 0058 00A0A0E3 	        mov R10,#0 //Reinicias el valor de max
+  62 005c 09A181E7 	        str R10,[R1,R9,lsl#2] //Guardas el valor que hay en R10 en la direccion de memoria de A[ind
+  63 0060 016086E2 	        add R6,R6,#1 //aumentamos la j (j++)
+  64 0064 EAFFFFEA 	        b for //volvemos al origen del for
+  65              	fin:
+  66 0068 FEFFFFEA 	        b .
+  67 006c 00000000 	        .end
+  67      00000000 
+  67      20000000 
+  67      24000000 
+DEFINED SYMBOLS
+      ../pract2b.asm:17     *ABS*:00000008 N
+      ../pract2b.asm:30     .text:00000000 start
+      ../pract2b.asm:22     .data:00000000 A
+      ../pract2b.asm:25     .bss:00000000 B
+      ../pract2b.asm:25     .bss:00000000 $d
+      ../pract2b.asm:26     .bss:00000020 max
+      ../pract2b.asm:27     .bss:00000024 ind
+      ../pract2b.asm:31     .text:00000000 $a
+      ../pract2b.asm:38     .text:00000014 for
+      ../pract2b.asm:65     .text:00000068 fin
+      ../pract2b.asm:45     .text:00000028 for2
+      ../pract2b.asm:59     .text:00000054 fbucle
+      ../pract2b.asm:56     .text:0000004c else
+      ../pract2b.asm:67     .text:0000006c $d
+                   .debug_aranges:0000000c $d
+
+NO UNDEFINED SYMBOLS

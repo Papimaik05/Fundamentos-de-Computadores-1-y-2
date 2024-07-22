@@ -1,0 +1,4 @@
+
+force a -repeat 10 ns 0, 1 5 ns
+force b -repeat 20 ns 0, 1 10 ns
+force ce -repeat 40 ns 0, 1 20 ns

@@ -1,0 +1,107 @@
+
+pract2b.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000020  0c000000  0c000000  00008000  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .bss          00000028  0c000020  0c000020  00008020  2**0
+                  ALLOC
+  2 .text         0000007c  0c000048  0c000048  00008048  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  3 .ARM.attributes 00000022  00000000  00000000  000080c4  2**0
+                  CONTENTS, READONLY
+  4 .debug_line   00000058  00000000  00000000  000080e6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000006a  00000000  00000000  0000813e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000014  00000000  00000000  000081a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_aranges 00000020  00000000  00000000  000081c0  2**3
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+0c000048 <start>:
+max: 	.space 4
+ind: 	.space 4
+
+.text
+start:
+		ldr R1,=A  //Introduzco la dirección de A en R1
+ c000048:	e59f1064 	ldr	r1, [pc, #100]	; c0000b4 <fin+0x4>
+		ldr R2,=B  //Introduzco la dirección de B en R2
+ c00004c:	e59f2064 	ldr	r2, [pc, #100]	; c0000b8 <fin+0x8>
+		ldr R3,=max //Introduzco la dirección de max en R3
+ c000050:	e59f3064 	ldr	r3, [pc, #100]	; c0000bc <fin+0xc>
+		ldr R4,=ind //Introduzco la dirección de ind en R4
+ c000054:	e59f4064 	ldr	r4, [pc, #100]	; c0000c0 <fin+0x10>
+		mov R6,#0 //Inicializamos j
+ c000058:	e3a06000 	mov	r6, #0
+
+0c00005c <for>:
+
+
+for:	cmp R6,#N //comparamos j con n
+ c00005c:	e3560008 	cmp	r6, #8
+        bge fin  //Si j es mayor que  N ,vamos al final
+ c000060:	aa000012 	bge	c0000b0 <fin>
+        mov R10,#0 //inicializamos max
+ c000064:	e3a0a000 	mov	sl, #0
+        mov R7,#0 //inicializamos i
+ c000068:	e3a07000 	mov	r7, #0
+        mov R9,#0 //inicializamos ind
+ c00006c:	e3a09000 	mov	r9, #0
+
+0c000070 <for2>:
+
+
+for2:   cmp R7,#N //comparamos i con N
+ c000070:	e3570008 	cmp	r7, #8
+        bge fbucle //Si i es mayor que n,camos a fbucle
+ c000074:	aa000008 	bge	c00009c <fbucle>
+        ldr R8,[R1,R7,lsl#2] //Creamos el array A[i]
+ c000078:	e7918107 	ldr	r8, [r1, r7, lsl #2]
+        cmp R10,R8 //comparamos max con el array mencionado anteriormente
+ c00007c:	e15a0008 	cmp	sl, r8
+        bge else //Si max es mayor que el array
+ c000080:	aa000003 	bge	c000094 <else>
+        mov R10,R8 // max=A[i]
+ c000084:	e1a0a008 	mov	sl, r8
+        mov R9,R7 // ind=i
+ c000088:	e1a09007 	mov	r9, r7
+        str R10,[R3] //Guardas el valor que hay en R10 en la direccion de memoria de R3
+ c00008c:	e583a000 	str	sl, [r3]
+        str R9,[R4]  //Guardas el valor que hay en R9 en la direccion de memoria de R4
+ c000090:	e5849000 	str	r9, [r4]
+
+0c000094 <else>:
+
+
+else:   add R7,R7,#1 //aumentamos la i (i++)
+ c000094:	e2877001 	add	r7, r7, #1
+        b for2 //volvemos al for2
+ c000098:	eafffff4 	b	c000070 <for2>
+
+0c00009c <fbucle>:
+
+fbucle:
+        str R10,[R2,R6,lsl#2]  //Guardas el valor que hay en R10 en la direccion de memoria de B[j]
+ c00009c:	e782a106 	str	sl, [r2, r6, lsl #2]
+        mov R10,#0 //Reinicias el valor de max
+ c0000a0:	e3a0a000 	mov	sl, #0
+        str R10,[R1,R9,lsl#2] //Guardas el valor que hay en R10 en la direccion de memoria de A[ind]
+ c0000a4:	e781a109 	str	sl, [r1, r9, lsl #2]
+        add R6,R6,#1 //aumentamos la j (j++)
+ c0000a8:	e2866001 	add	r6, r6, #1
+        b for //volvemos al origen del for
+ c0000ac:	eaffffea 	b	c00005c <for>
+
+0c0000b0 <fin>:
+fin:
+        b .
+ c0000b0:	eafffffe 	b	c0000b0 <fin>
+ c0000b4:	0c000000 	.word	0x0c000000
+ c0000b8:	0c000020 	.word	0x0c000020
+ c0000bc:	0c000040 	.word	0x0c000040
+ c0000c0:	0c000044 	.word	0x0c000044

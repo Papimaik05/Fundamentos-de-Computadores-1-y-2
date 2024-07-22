@@ -1,0 +1,9 @@
+
+force  clk -repeat  10 0, 1 5
+force    r  1
+force   e0  0
+force   e1  1
+force   e2  0 
+force  esi  1
+force   c0  0, 1 20
+force   c1  0, 1 40
